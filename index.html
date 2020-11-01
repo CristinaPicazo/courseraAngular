@@ -1,10 +1,23 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="DIApp">
     <head>
         <meta charset="utf-8">
-        <title>Hello Coursera</title>
+        <script src="angular.min.js"></script>
+        <script src="app.js"></script>
+        <title>HMy first AngularJS App</title>
     </head>
     <body>
-        <h1>Hello Coursera</h1>
+        <h1>My first AngularJS APP</h1>
+        <div ng-controller='DIController'>
+            <input type="text" ng-model="name" ng-blur="upper();">
+            {{name}} has a message for you: <br>
+            {{name}}{{sayMessage()}}
+        
+        <div>
+            <button ng-click="feedName()">Feed {{name}}</button>
+            <br>
+            <img ng-src="images/cris_{{stateOfBeing}}.png">
+        </div>
+        </div>
     </body>
 </html>
