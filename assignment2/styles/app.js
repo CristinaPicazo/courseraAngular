@@ -1,30 +1,51 @@
 (function(){
     'use strict';
 
-    angular.module('LunchCheck',[])
-    .controller('LunchCheckController',LunchCheckController);
+    angular.module('ShoppingListCheckOff',[])
+    .controller('ToBuyController',ToBuyController)
+    .controller('AlreadyBoughtController',AlreadyBoughtController)
+    .service('ShoppingListCheckOffService', ShoppingListCheckOffService);
 
-    function LunchCheckController($scope){
-        $scope.list = "";
-        $scope.splitList = "";
-        $scope.messageText = "";
-        
-        $scope.message = function(){
-            $scope.splitList = $scope.list.split(",");
 
-            if($scope.list === ""){
-                $scope.messageText = "Please enter data first";
-                return $scope.messageText;                
-            }
-            else if($scope.splitList.length <= 3){
-                $scope.messageText = "Enjoy!";
-                return $scope.messageText;
-            }else{
-                $scope.messageText = "Too much!";
-                return $scope.messageText;
-            }
+    //ToBuyController controller
+    ToBuyController.$inject = ['ShoppingListCheckOffService'];
+    function ToBuyController(ShoppingListCheckOffService){
+        var itemToBuy = this;
+
+        itemToBuy.itemName="";
+        itemToBuy.quantity="";
+
+        itemToBuy.addItem = function(){
+            ShoppingListCheckOffService.addItem(itemToBuy.itemName, itemToBuy.quantity);
         }
     }
-    LunchCheckController.$inject = ['$scope'];
+
+    //AlreadyBoughtController controller
+    AlreadyBoughtController.$inject = ['ShoppingListCheckOffService'];
+    function AlreadyBoughtController(ShoppingListCheckOffService){
+        var AlreadyBought = this;
+
+        AlreadyBought.items = ShoppingListCheckOffService.getItems();
+    }
+
+
+    //service
+    function ShoppingListCheckOffService(){
+        var service = this;
+
+        var items= [];
+
+        service.addItem = funcion (itemName,quantity){
+            var item= {
+                name: itemName,
+                quantity: quantity
+            };
+            items.push(item);
+        };
+
+        service.getItems = function(){
+            return items;
+        };
+    }
 
 })();
